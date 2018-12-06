@@ -1,0 +1,27 @@
+version: "3"
+services:
+    bitcoind:
+        image: "watcoin:bitcoind"
+        command: ["-rpcallowip=0.0.0.0/0", "-rest"]
+        env_file:
+         - "./.env"
+        hostname: "watcoin:bitcoind"
+        restart: "always"
+        volumes:
+         - "./data/bitcoind:/data"
+    cpuminer:
+        image: "watcoin:cpuminer"
+        depends_on:
+         - "bitcoind"
+        env_file:
+         - "./.env"
+        hostname: "watcoin:cpuminer"
+        restart: "always"
+    qt:
+        image: "watcoin:qt"
+        env_file:
+         - "./.env"
+        hostname: "watcoin:qt"
+        volumes:
+         - "./data/qt:/data"
+         - "/tmp/.X11-unix:/tmp/.X11-unix"
