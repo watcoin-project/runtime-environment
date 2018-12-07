@@ -1,0 +1,8 @@
+[submodule "cpuminer"]
+	path = cpuminer
+	url = ../cpuminer
+	branch = watcoin/docker
+[submodule "bitcoin"]
+	path = bitcoin
+	url = ../bitcoin
+	branch = watcoin/docker
