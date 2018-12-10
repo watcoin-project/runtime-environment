@@ -16,9 +16,9 @@ Program _"kopiący"_ kryptowalutę. Budowanie za pomocą `docker-compose build c
 
 ### Uwagi
 
-Po zbudowaniu nowej wersji zalecam wykonanie `docker image prune -f` aby usunąć zbędne warstwy, które mogą sporo zajmować.
+Po zbudowaniu nowej wersji zalecam wykonanie `docker image prune -f` aby usunąć zbędne warstwy, które mogą zajmować sporo miejsca.
 
-W celu zbudowania wszystkich obrazów możemy wykonać komendę `docker-composer build`.
+W celu zbudowania wszystkich obrazów możemy wykonać komendę `docker-compose build`.
 
 ## Uruchamianie
 
