@@ -8,7 +8,6 @@ services:
         BITCOIN_RPC_DEPRECATED: "generate"
         BITCOIN_REGTEST: 1
         BITCOIN_DATA_DIR: "/data"
-        BITCOIN_DNS: ""
       restart: "always"
     watcoin-bitcoind1:
       image: "watcoin:bitcoind"
@@ -19,7 +18,7 @@ services:
         BITCOIN_REGTEST: 1
         BITCOIN_DATA_DIR: "/data"
         BITCOIN_CONNECT: "watcoin-bitcoind0:8686"
-        BITCOIN_DNS: ""
+        BITCOIN_ENABLE_DNS: 1
       depends_on:
        - "watcoin-bitcoind0"
     watcoin-bitcoind2:
@@ -30,7 +29,7 @@ services:
         BITCOIN_RPC_DEPRECATED: "generate"
         BITCOIN_REGTEST: 1
         BITCOIN_DATA_DIR: "/data"
-        BITCOIN_CONNECT: "watcoin-bitcoind0:8686"
-        BITCOIN_DNS: ""
+        BITCOIN_ADD_NODE: "watcoin-bitcoind0:8686"
+        BITCOIN_ENABLE_DNS: 1
       depends_on:
        - "watcoin-bitcoind0"

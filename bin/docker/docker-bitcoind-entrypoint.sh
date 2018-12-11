@@ -41,7 +41,6 @@ then
 fi
 
 BITCOIN_CONF_FILE="$BITCOIN_DATA_DIR/bitcoin.conf"
-echo $BITCOIN_CONF_FILE
 
 if [ -n "$BITCOIN_RPC_USER" ] && [ -z "$BITCOIN_RPC_PASSWORD" ]
 then
@@ -54,10 +53,8 @@ then
     exit_message "Failed to create \"$BITCOIN_DATA_DIR\"!"
 fi
 
-echo "port=$BITCOIN_PORT"
 add_or_modify_line $BITCOIN_CONF_FILE port $BITCOIN_PORT
 
-echo "rpcport=$BITCOIN_RPC_PORT"
 add_or_modify_line $BITCOIN_CONF_FILE rpcport $BITCOIN_RPC_PORT
 
 if [ -n "$BITCOIN_RPC_USER" ] && [ -n "$BITCOIN_RPC_PASSWORD" ]
@@ -83,11 +80,12 @@ else
     remove_line $BITCOIN_CONF_FILE server
 fi
 
-if [ "$BITCOIN_REGTEST" == "1" ]
+remove_line $BITCOIN_CONF_FILE regtest
+sed -i "/\[regtest\]/d" $BITCOIN_CONF_FILE
+
+if [ "$BITCOIN_NETWORK" == "regtest" ]
 then
-    add_or_modify_line $BITCOIN_CONF_FILE regtest 1
-else
-    remove_line $BITCOIN_CONF_FILE regtest
+    sed -i "1 s/^/regtest=1\n[regtest]\n/" $BITCOIN_CONF_FILE
 fi
 
 remove_line $BITCOIN_CONF_FILE connect

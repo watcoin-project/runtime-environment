@@ -7,6 +7,9 @@ services:
         command: ["-rpcallowip=0.0.0.0/0", "-rest"]
         env_file:
          - "./.env"
+        expose:
+         - "${BITCOIN_PORT}"
+         - "${BITCOIN_RPC_PORT}"
         hostname: "watcoin:bitcoind"
         image: "watcoin:bitcoind"
         restart: "always"
@@ -29,6 +32,9 @@ services:
             dockerfile: "./docker/qt/Dockerfile"
         env_file:
          - "./.env"
+        expose:
+         - "${BITCOIN_PORT}"
+         - "${BITCOIN_RPC_PORT}"
         hostname: "watcoin:qt"
         image: "watcoin:qt"
         volumes:

@@ -90,11 +90,12 @@ else
     remove_line $BITCOIN_CONF_FILE server
 fi
 
-if [ "$BITCOIN_REGTEST" == "1" ]
+remove_line $BITCOIN_CONF_FILE regtest
+sed -i "/\[regtest\]/d" $BITCOIN_CONF_FILE
+
+if [ "$BITCOIN_NETWORK" == "regtest" ]
 then
-    add_or_modify_line $BITCOIN_CONF_FILE regtest 1
-else
-    remove_line $BITCOIN_CONF_FILE regtest
+    sed -i "1 s/^/regtest=1\n[regtest]\n/" $BITCOIN_CONF_FILE
 fi
 
 remove_line $BITCOIN_CONF_FILE connect
