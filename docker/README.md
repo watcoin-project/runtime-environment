@@ -24,6 +24,10 @@ W celu zbudowania wszystkich obrazów możemy wykonać komendę `docker-compose 
 
 Uruchamiać kontenery można za pomocą skryptów `bin/docker-run-*.sh`.
 
+Aby uruchomić bitcoind oraz cpuminer w tle należy użyć komendy `docker-compose up -d bitcoind cpuminer`.
+
+Jeśli chcemy aby porty z kontenera dostępne były z zewnątrz należy dodać flagę `-p 8686:8686` gdzie `8686` to wartość zmiennej `BITCOIN_PORT`.
+
 **Uwaga:** Uruchomienie cpuminer automatycznie uruchamia bitcoind!
 
 ## Zmienne środowiskowe
