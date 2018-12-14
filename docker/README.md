@@ -47,8 +47,17 @@ Jeśli chcemy aby porty z kontenera dostępne były z zewnątrz należy dodać f
 
 Zmienne środowiskowe przechowywane są w pliku `.env`. Ważne aby wcześniej skopiować dostępny plik `.env.example` i zapisać jako `.env` ustawiając jednocześnie domyślne zmienne środowiske. Można to zrobić komendą `cp -v .env.example .env`. Plik jest wpisany w `.gitignore` więc jego modyfikacja nie zostanie odnotowana w _commitach_.
 
+## Kopiowanie
+
+Aby skopiować obraz na serwer zewnętrzny można użyć skryptu `bin/copy-docker-image-to-remote.sh`, przykładowo:
+
+    bin/copy-docker-image-to-remote.sh my-remote-host watcoin:bitcoind
+
+**Uwaga:** Zalecane skonfigurowanie pliku `~/.ssh/config`, ponieważ skrypt wielokrotnie nawiązuje połączenie SSH.
+
 ## Odnośniki
 
 * [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
 * [Compose command-line reference](https://docs.docker.com/compose/reference/)
 * [Compose file reference](https://docs.docker.com/compose/compose-file/)
+* [SSH config file](https://www.ssh.com/ssh/config/)
