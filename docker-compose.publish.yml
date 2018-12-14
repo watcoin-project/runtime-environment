@@ -1,0 +1,44 @@
+version: "3"
+services:
+    bitcoind:
+        build:
+            context: "."
+            dockerfile: "./docker/bitcoind/Dockerfile"
+        command: ["-rpcallowip=0.0.0.0/0", "-rest"]
+        env_file:
+         - "./.env"
+        expose:
+         - "${BITCOIN_PORT}"
+         - "${BITCOIN_RPC_PORT}"
+        hostname: "watcoin:bitcoind"
+        image: "watcoin:bitcoind"
+        ports:
+         - "${BITCOIN_PORT}:${BITCOIN_PORT}"
+        restart: "always"
+        volumes:
+         - "./data/bitcoind:/data"
+    cpuminer:
+        build:
+            context: "."
+            dockerfile: "./docker/cpuminer/Dockerfile"
+        depends_on:
+         - "bitcoind"
+        env_file:
+         - "./.env"
+        hostname: "watcoin:cpuminer"
+        image: "watcoin:cpuminer"
+        restart: "always"
+    qt:
+        build:
+            context: "."
+            dockerfile: "./docker/qt/Dockerfile"
+        env_file:
+         - "./.env"
+        expose:
+         - "${BITCOIN_PORT}"
+         - "${BITCOIN_RPC_PORT}"
+        hostname: "watcoin:qt"
+        image: "watcoin:qt"
+        volumes:
+         - "./data/qt:/data"
+         - "/tmp/.X11-unix:/tmp/.X11-unix"

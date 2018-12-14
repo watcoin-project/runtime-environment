@@ -26,3 +26,5 @@ Aby uruchomić kontenery należy skopiować plik `.env.example` i nazwać go jak
 Opcjonalnie można zmienić wartości zmiennych środowiskowych zdefiniowanych w pliku.
 
 Aby uruchomić węzeł należy wykonać `docker-compose up bitcoind cpuminer`. Dodanie flagi `-d` uruchamia kontenery w tle.
+
+**Uwaga:** Aby uruchomić bitcoind z udostępnionymi portami należy zmienić interpretowany plik na `docker-compose.publish.yml`. Przykład: `docker-compose --file docker-compose.publish.yml up -d bitcoind cpuminer`.
