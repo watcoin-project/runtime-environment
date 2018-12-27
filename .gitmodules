@@ -5,7 +5,7 @@
 [submodule "bitcoin"]
 	path = bitcoin
 	url = ../bitcoin
-	branch = watcoin/docker
+	branch = watcoin/argon2
 [submodule "argon2"]
 	path = argon2
 	url = ../argon2
