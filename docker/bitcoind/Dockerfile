@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM watcoin:argon2
 # Install extra tools
 RUN apt-get update && \
     apt-get install -y curl vim wget && \
