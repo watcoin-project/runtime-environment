@@ -10,10 +10,6 @@ FROM ubuntu:18.04
 RUN apt-get update && \
     apt-get install -y curl vim wget && \
     rm -rf /var/lib/apt/lists/*
-# Install git
-RUN apt-get update && \
-    apt-get install -y git && \
-    rm -rf /var/lib/apt/lists/*
 # Install basic dependencies
 RUN apt-get update && \
     apt-get install -y automake gcc libcurl4-openssl-dev make python3 && \
