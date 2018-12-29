@@ -61,7 +61,7 @@ fi
 
 address=$(python3 -c "import json; print(list(json.loads('$response')[\"result\"].keys()).pop())")
 
-minerd --algo sha256d \
+minerd --algo argon2d \
     --url $url \
     --user $BITCOIN_RPC_USER \
     --pass $BITCOIN_RPC_PASSWORD \
