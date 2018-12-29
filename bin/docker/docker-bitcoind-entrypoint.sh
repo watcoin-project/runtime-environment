@@ -10,11 +10,11 @@ function add_or_modify_line {
     name=$2
     value=$3
 
-    if [ -f "$filepath" ] && [ "$(cat "$filepath" | grep "^$name=" | wc -l)" -gt "0" ]
+    if [ -f "$filepath" ] && [ "$(cat "$filepath" | grep "^\(?:$PREFIX\|\)$name=" | wc -l)" -gt "0" ]
     then
-        sed -i "s/$name=.*/$name=$value/" $filepath
+        sed -i "s/^\(?:$PREFIX\|\)$name=.*/$PREFIX$name=$value/" $filepath
     else
-        echo "$name=$value" >> $filepath
+        echo "$PREFIX$name=$value" >> $filepath
     fi
 }
 
@@ -22,7 +22,10 @@ function remove_line {
     filepath=$1
     name=$2
 
-    sed -i "/$name=.*/d" $filepath
+    if [ -f "$filepath" ]
+    then
+        sed -i "/^\(?:$PREFIX\|\)$name=.*/d" $filepath
+    fi
 }
 
 if [ -z "$BITCOIN_PORT" ]
@@ -53,6 +56,31 @@ then
     exit_message "Failed to create \"$BITCOIN_DATA_DIR\"!"
 fi
 
+remove_line $BITCOIN_CONF_FILE testnet
+remove_line $BITCOIN_CONF_FILE regtest
+if [ -f "$BITCOIN_CONF_FILE" ]
+then
+    sed -i "/\[regtest\]/d" $BITCOIN_CONF_FILE
+fi
+
+if [ "$BITCOIN_NETWORK" == "testnet" ]
+then
+    if [ -f "$BITCOIN_CONF_FILE" ]
+    then
+        sed -i "1 s/^/testnet=1\n/" $BITCOIN_CONF_FILE
+    fi
+    PREFIX="test."
+elif [ "$BITCOIN_NETWORK" == "regtest" ]
+then
+    if [ -f "$BITCOIN_CONF_FILE" ]
+    then
+        sed -i "1 s/^/regtest=1\n[regtest]\n/" $BITCOIN_CONF_FILE
+    fi
+elif [ -n "$BITCOIN_NETWORK" ] && [ "$BITCOIN_NETWORK" != "mainnet" ]
+then
+    exit_message "Unknown network \"$BITCOIN_NETWORK\"!"
+fi
+
 add_or_modify_line $BITCOIN_CONF_FILE port $BITCOIN_PORT
 
 add_or_modify_line $BITCOIN_CONF_FILE rpcport $BITCOIN_RPC_PORT
@@ -78,14 +106,6 @@ then
     add_or_modify_line $BITCOIN_CONF_FILE server 1
 else
     remove_line $BITCOIN_CONF_FILE server
-fi
-
-remove_line $BITCOIN_CONF_FILE regtest
-sed -i "/\[regtest\]/d" $BITCOIN_CONF_FILE
-
-if [ "$BITCOIN_NETWORK" == "regtest" ]
-then
-    sed -i "1 s/^/regtest=1\n[regtest]\n/" $BITCOIN_CONF_FILE
 fi
 
 remove_line $BITCOIN_CONF_FILE connect
