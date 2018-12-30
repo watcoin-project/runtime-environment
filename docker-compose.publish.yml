@@ -1,10 +1,17 @@
 version: "3"
 services:
+    argon2:
+        build:
+            context: "."
+            dockerfile: "./docker/argon2/Dockerfile"
+        image: "watcoin:argon2"
     bitcoind:
         build:
             context: "."
             dockerfile: "./docker/bitcoind/Dockerfile"
         command: ["-rpcallowip=0.0.0.0/0", "-rest"]
+        depends_on:
+         - "argon2"
         env_file:
          - "./.env"
         expose:
@@ -14,9 +21,8 @@ services:
         image: "watcoin:bitcoind"
         ports:
          - "${BITCOIN_PORT}:${BITCOIN_PORT}"
-        restart: "always"
         volumes:
-         - "./data/bitcoind:/data"
+         - "./data/bitcoind:${BITCOIN_DATA_DIR}"
     cpuminer:
         build:
             context: "."
@@ -27,11 +33,12 @@ services:
          - "./.env"
         hostname: "watcoin:cpuminer"
         image: "watcoin:cpuminer"
-        restart: "always"
     qt:
         build:
             context: "."
             dockerfile: "./docker/qt/Dockerfile"
+        depends_on:
+         - "argon2"
         env_file:
          - "./.env"
         expose:
@@ -40,5 +47,5 @@ services:
         hostname: "watcoin:qt"
         image: "watcoin:qt"
         volumes:
-         - "./data/qt:/data"
+         - "./data/qt:${BITCOIN_DATA_DIR}"
          - "/tmp/.X11-unix:/tmp/.X11-unix"
