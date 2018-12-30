@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-docker build \
-    --file docker/argon2/Dockerfile \
-    --tag watcoin:argon2 \
-    .
+docker-compose build \
+    argon2
