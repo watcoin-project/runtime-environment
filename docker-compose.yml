@@ -17,6 +17,8 @@ services:
          - "${BITCOIN_RPC_PORT}"
         hostname: "watcoin:bitcoind"
         image: "watcoin:bitcoind"
+        ports:
+         - "${BITCOIN_PORT}:${BITCOIN_PORT}"
         volumes:
          - "./data/bitcoind:${BITCOIN_DATA_DIR}"
     cpuminer:
